@@ -1,1 +1,89 @@
-﻿
+html, body {
+  font-size: 14px;
+  background-color: #242121;
+  color: #ffd800;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+    display: grid;
+    grid-template-areas:
+        "H"
+        "A"
+        "F";
+    height: 95vh;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 15% 1fr 8%;
+    grid-gap: 4px;
+}
+
+article {
+    grid-area: A;
+    margin: auto;
+}
+
+footer {
+  grid-area: F;
+}
+
+fieldset {
+    border: 1px solid #ffd800;
+    border-radius: 4px;
+    text-align: center;
+}
+
+hr {
+    width: 75%;
+    border: none;
+    outline: none;
+    background-color: #ffd800;
+    height: 1px;
+}
+
+header {
+    grid-area: H;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+}
+
+input {
+    width: 220px;
+    height: 25px;
+    margin: 2px;
+    padding-left: 12px;
+}
+
+button {
+    width: 100px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+}
+
+input, button {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+button:hover {
+    background-color: #f9e576;
+}
+
+button:active {
+    background-color: #00ffff;
+}
+
+.registration {
+    cursor: pointer;
+}
+
+.registration:hover {
+    color: #00ffff;
+}

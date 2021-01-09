@@ -80,10 +80,15 @@ button:active {
     background-color: #00ffff;
 }
 
-.registration {
+a {
+    text-decoration: none;
+    color: #ffd800;
     cursor: pointer;
 }
-
-.registration:hover {
+a:hover {
     color: #00ffff;
+}
+
+span {
+    color: #4cff00;
 }

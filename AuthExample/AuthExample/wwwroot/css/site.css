@@ -1,71 +1,89 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
+﻿html, body {
   font-size: 14px;
+  background-color: #242121;
+  color: #ffd800;
+  font-size: 1.2rem;
+  text-align: center;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    display: grid;
+    grid-template-areas:
+        "H"
+        "A"
+        "F";
+    height: 95vh;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 15% 1fr 8%;
+    grid-gap: 4px;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+article {
+    grid-area: A;
+    margin: auto;
+}
+
+footer {
+  grid-area: F;
+}
+
+fieldset {
+    border: 1px solid #ffd800;
+    border-radius: 4px;
+    text-align: center;
+}
+
+hr {
+    width: 75%;
+    border: none;
+    outline: none;
+    background-color: #ffd800;
+    height: 1px;
+}
+
+header {
+    grid-area: H;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+}
+
+input {
+    width: 220px;
+    height: 25px;
+    margin: 2px;
+    padding-left: 12px;
+}
+
+button {
+    width: 100px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+}
+
+input, button {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+button:hover {
+    background-color: #f9e576;
+}
+
+button:active {
+    background-color: #00ffff;
+}
+
+.registration {
+    cursor: pointer;
+}
+
+.registration:hover {
+    color: #00ffff;
 }

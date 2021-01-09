@@ -1,8 +1,15 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Страница авторизации";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <fieldset>
+        <legend>Авторизация | <span class="registration">Регистрация</span></legend>
+        <input type="text" placeholder="Email" />
+        <br />
+        <input type="password" placeholder="Пароль" />
+        <br />
+        <button>Войти</button>
+    </fieldset>
+    <p>Здесь будет выводиться сообщение об ошибке</p>
 </div>

@@ -4,14 +4,16 @@
 
 <div class="text-center">
     <fieldset>
-        <legend><span class="autorization"><a href="/home/index">Авторизация</a></span> | Регистрация</legend>
-        <input  type="text" placeholder="Email" />
+        <legend><a href="/home/index" class="autorization">Авторизация</a> | <span>Регистрация</span></legend>
+        <input  type="text" id="regUserEmail" placeholder="Email" />
         <br />
-        <input type="password" placeholder="Пароль" />
+        <input type="password" id="regUserPassword" placeholder="Пароль" />
         <br />
-        <input type="password" placeholder="Подтвердите пароль" />
+        <input type="password" id="regUserConfirmPassword" placeholder="Подтвердите пароль" />
         <br />
-        <button>Зарегистрироваться</button>
+        <button id="registerButton">Зарегистрироваться</button>
     </fieldset>
-    <p>Здесь будет выводиться информация об ошибках регистрации</p>
+</div>
+<div>
+    <p id="regCurrentMessage">&nbsp;</p>
 </div>

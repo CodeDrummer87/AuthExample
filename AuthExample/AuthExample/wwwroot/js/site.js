@@ -49,7 +49,7 @@ function ClearCurrentMessage() {
 }
 
 function ClearPasswordFields() {
-	$('#regUserPassword').val('');
+	$('#regUserPassword').val('').focus();
 	$('#regUserConfirmPassword').val('');
 }
 

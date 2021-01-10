@@ -23,18 +23,19 @@ function RegisterUser(model) {
 		method: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(model),
-		success: function () {
-			
+		success: function (message) {
+			ClearRegisterForm();
+			DisplayCurrentMessage(message, true);
 		},
 		error: function () {
-			
+			DisplayCurrentMessage("Упс! Что-то пошло не так...", false);
 		}
 	});
 }
 
 function DisplayCurrentMessage(message, success) {
 	if (success) {
-		$('#regCurrentMessage').css('color', 'green').text(message);
+		$('#regCurrentMessage').css('color', '#4cff00').text(message);
 	}
 	else {
 		$('#regCurrentMessage').css('color', 'red').text(message);
@@ -64,4 +65,10 @@ function CheckPasswordForConfirm(password, confirmPassword) {
 		DisplayCurrentMessage("Пароль и подтверждение пароля не совпадают", false);
 		return false;
 	}
+}
+
+function ClearRegisterForm() {
+	$('#regUserEmail').val('');
+	$('#regUserPassword').val('');
+	$('#regUserConfirmPassword').val('');
 }

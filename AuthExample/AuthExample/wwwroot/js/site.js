@@ -7,7 +7,7 @@
 			confirmPassword: $('#regUserConfirmPassword').val()
 		};
 
-		if (CheckPasswordForConfirm(userLogin.password, userLogin.confirmPassword)) {
+		if (CheckPasswordForConfirm(userLogin.password, userLogin.confirmPassword) && userLogin.email !== '') {
 			RegisterUser(userLogin);
 		}
 		else {
@@ -23,9 +23,9 @@ function RegisterUser(model) {
 		method: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(model),
-		success: function (message) {
+		success: function (address) {
 			ClearRegisterForm();
-			DisplayCurrentMessage(message, true);
+			window.location.href = address;
 		},
 		error: function () {
 			DisplayCurrentMessage("Упс! Что-то пошло не так...", false);

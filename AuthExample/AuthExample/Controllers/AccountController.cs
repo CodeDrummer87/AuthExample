@@ -26,7 +26,7 @@ namespace AuthExample.Controllers
         [HttpPost]
         public string RegisterUser([FromBody]RegisterModel model)
         {
-            if (model.Password == model.ConfirmPassword)
+            if (model.Password == model.ConfirmPassword && model.Email != String.Empty)
             {
                 var salt = GetSalt();
 
@@ -40,7 +40,7 @@ namespace AuthExample.Controllers
                 db.AuthData.Add(loginModel);
                 db.SaveChanges();
 
-                return ".:: Регистрация успешно завершена";
+                return "/Content/StartPage";
             }
             else
             {

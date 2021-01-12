@@ -10,7 +10,11 @@ namespace AuthExample.Models
     {
         [Key]
         public int LoginId { get; set; }
+
+        [Required]
         public string Email { get; set; }
+        
+        [Required]
         public string Password { get; set; }
         public byte[] Salt { get; set; }
     }

@@ -32,6 +32,7 @@ namespace AuthExample
                 .AddCookie(options =>
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Home/Index");
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
                 });
             services.AddControllersWithViews();
         }

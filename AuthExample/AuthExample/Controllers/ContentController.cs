@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthExample.Controllers
 {
+    [Authorize]
     public class ContentController : Controller
     {
         private AuthExampleContext db;
@@ -17,13 +18,11 @@ namespace AuthExample.Controllers
             db = context;
         }
 
-        [Authorize]
         public IActionResult StartPage()
         {
             return View();
         }
 
-        [Authorize]
         [HttpPost]
         public string SaveUserData([FromBody] User user)
         {
@@ -36,9 +35,8 @@ namespace AuthExample.Controllers
             return "/Content/NamedPage";
         }
 
-        [Authorize]
         public IActionResult NamedPage()
-        {
+        { 
             return View();
         }
     }

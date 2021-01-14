@@ -45,6 +45,8 @@ namespace AuthExample.Controllers
                 db.AuthData.Add(loginModel);
                 db.SaveChanges();
 
+                HttpContext.Response.Cookies.Append("email", model.Email);
+
                 return "/Content/StartPage";
             }
 

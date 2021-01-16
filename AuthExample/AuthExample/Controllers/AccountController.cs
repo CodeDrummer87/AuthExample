@@ -45,7 +45,8 @@ namespace AuthExample.Controllers
                 db.AuthData.Add(loginModel);
                 db.SaveChanges();
 
-                HttpContext.Response.Cookies.Append("email", model.Email);
+                int loginId = db.AuthData.FirstOrDefault(a => a.Email == model.Email).LoginId;
+                HttpContext.Response.Cookies.Append("LoginId", loginId.ToString());
 
                 return "/Content/StartPage";
             }

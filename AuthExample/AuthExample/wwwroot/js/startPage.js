@@ -12,10 +12,10 @@
 
 function SendUserData(user) {
 	$.ajax({
-		url: 'https://localhost:44322/content/saveUserData',
-		method: 'POST',
-		contentType: 'application/json',
-		data: JSON.stringify(user),
+		url: 'https://localhost:44322/content/saveUserData?firstname='+ user.firstName
+			+ '&lastname=' + user.lastName
+			+ '&middlename=' + user.middleName,
+		method: 'GET',
 		success: function (address) {
 			window.location.href = address;
 		},

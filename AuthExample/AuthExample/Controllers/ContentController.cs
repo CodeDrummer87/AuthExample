@@ -23,20 +23,51 @@ namespace AuthExample.Controllers
             return View();
         }
 
-        [HttpPost]
-        public string SaveUserData([FromBody] User user)
+        [HttpGet]
+        public string SaveUserData(string firstname, string lastname, string middlename)
         {
-            string email = HttpContext.Request.Cookies["email"];
+            int userLoginId = Convert.ToInt32(HttpContext.Request.Cookies["LoginId"]);
+            User user = new User
+            {
+                FirstName = firstname,
+                LastName = lastname,
+                MiddleName = middlename,
+                LoginId = userLoginId
+            };
 
-            user.LoginId = db.AuthData.FirstOrDefault(login => login.Email == email).LoginId;
             db.Users.Add(user);
+            db.SaveChanges(); 
+
+            int userId = db.Users.FirstOrDefault(u => u.LoginId == userLoginId).UserId;
+            DateTime currentDateTime = DateTime.Now;
+
+            SessionModel session = new SessionModel
+            {
+                SessionId = Guid.NewGuid().ToString(),
+                UserId = userId,
+                Created = currentDateTime,
+                Expired = currentDateTime.AddMinutes(15)
+            };
+
+            db.Sessions.Add(session);
             db.SaveChanges();
+
+            HttpContext.Response.Cookies.Delete("LoginId");
+            HttpContext.Response.Cookies.Append("SessionId", session.SessionId);
 
             return "/Content/NamedPage";
         }
 
         public IActionResult NamedPage()
-        { 
+        {
+            string sessionId = HttpContext.Request.Cookies["SessionId"];
+            int userId = db.Sessions.FirstOrDefault(s => s.SessionId == sessionId).UserId;
+            User user = db.Users.FirstOrDefault(u => u.UserId == userId);
+
+            if (user != null)
+            {
+                return View(user);
+            }
             return View();
         }
     }

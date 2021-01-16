@@ -28,14 +28,14 @@ function RegisterUser(model) {
 			window.location.href = address;
 		},
 		error: function () {
-			DisplayCurrentMessage("Упс! Что-то пошло не так...", false);
+			DisplayCurrentMessage('#regCurrentMessage', "Упс! Что-то пошло не так...", false);
 		}
 	});
 }
 
-function DisplayCurrentMessage(message, success) {
+function DisplayCurrentMessage(pid, message, success) {
 	if (success) {
-		$('#regCurrentMessage').css('color', '#4cff00').text(message);
+		$(pid).css('color', '#4cff00').text(message);
 	}
 	else {
 		$('#regCurrentMessage').css('color', 'red').text(message);
@@ -55,14 +55,14 @@ function ClearPasswordFields() {
 
 function CheckPasswordForConfirm(password, confirmPassword) {
 	if (password === '') {
-		DisplayCurrentMessage("Не введён пароль", false);
+		DisplayCurrentMessage('#regCurrentMessage', "Не введён пароль", false);
 		return false;
 	}
 	if (password === confirmPassword) {
 		return true;
 	}
 	else {
-		DisplayCurrentMessage("Пароль и подтверждение пароля не совпадают", false);
+		DisplayCurrentMessage('#regCurrentMessage', "Пароль и подтверждение пароля не совпадают", false);
 		return false;
 	}
 }

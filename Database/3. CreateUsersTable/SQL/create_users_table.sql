@@ -1,0 +1,16 @@
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE ID = OBJECT_ID(N'AuthExample'))
+USE AuthExample;
+
+GO
+
+IF OBJECT_ID('Users', 'u') IS NULL
+CREATE TABLE Users
+(
+	UserId INT IDENTITY(1, 1) PRIMARY KEY,
+	FirstName NVARCHAR(50),
+	LastName NVARCHAR(50),
+	MiddleName NVARCHAR(50),
+	LoginId INT,
+
+	FOREIGN KEY (LoginId)REFERENCES AuthData(LoginId) ON DELETE NO ACTION 
+);

@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace AuthExample.Models
 {
-    public class LoginModel
+    public class User
     {
         [Key]
+        public int UserId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
         public int LoginId { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public byte[] Salt { get; set; }
     }
 }

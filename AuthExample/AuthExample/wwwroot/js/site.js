@@ -15,6 +15,15 @@
 		}
 	});
 
+	$('#loginButton').click(function () {
+		let loginModel = {
+			email: $('#loginUserEmail').val(),
+			password: $('#loginUserPassword').val()
+		};
+
+		LoginUser(loginModel);
+	});
+
 });
 
 function RegisterUser(model) {
@@ -29,6 +38,21 @@ function RegisterUser(model) {
 		},
 		error: function () {
 			DisplayCurrentMessage('#regCurrentMessage', "Упс! Что-то пошло не так...", false);
+		}
+	});
+}
+
+function LoginUser(model) {
+	$.ajax({
+		url: 'https://localhost:44322/account/loginUser',
+		method: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(model),
+		success: function () {
+
+		},
+		error: function () {
+
 		}
 	});
 }

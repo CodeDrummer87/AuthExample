@@ -54,6 +54,12 @@ namespace AuthExample.Controllers
             return "/Home/Index";
         }
 
+        [HttpPost]
+        public string LoginUser([FromBody] ModelForLogin model)
+        {
+            return String.Empty;
+        }
+
         private byte[] GetSalt()
         {
             byte[] salt = new byte[128 / 8];

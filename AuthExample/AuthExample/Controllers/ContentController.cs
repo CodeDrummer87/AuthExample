@@ -61,14 +61,20 @@ namespace AuthExample.Controllers
         public IActionResult NamedPage()
         {
             string sessionId = HttpContext.Request.Cookies["SessionId"];
-            int userId = db.Sessions.FirstOrDefault(s => s.SessionId == sessionId).UserId;
-            User user = db.Users.FirstOrDefault(u => u.UserId == userId);
 
-            if (user != null)
+            if (sessionId != null)
             {
-                return View(user);
+                int userId = db.Sessions.FirstOrDefault(s => s.SessionId == sessionId).UserId;
+                User user = db.Users.FirstOrDefault(u => u.UserId == userId);
+
+                if (user != null)
+                {
+                    return View(user);
+                }
+                return View();
             }
-            return View();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

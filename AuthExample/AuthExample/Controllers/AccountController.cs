@@ -54,6 +54,24 @@ namespace AuthExample.Controllers
             return "/Home/Index";
         }
 
+        [HttpPost]
+        public async Task<string> LoginUser([FromBody] ModelForLogin model)
+        {
+            LoginModel modelDb = db.AuthData.FirstOrDefault(a => a.Email == model.Email);
+
+            if (modelDb != null && modelDb.Password == GetHashImage(model.Password, modelDb.Salt))
+            {
+                int userId = db.Users.FirstOrDefault(u => u.LoginId == modelDb.LoginId).UserId;
+                await Authenticate(model.Email);
+
+                RegisterSession(userId);
+
+                return "/Content/NamedPage";
+            }
+
+            return null;
+        }
+
         private byte[] GetSalt()
         {
             byte[] salt = new byte[128 / 8];
@@ -87,6 +105,24 @@ namespace AuthExample.Controllers
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        private void RegisterSession(int userId)
+        {
+            DateTime currentDateTime = DateTime.Now;
+
+            SessionModel session = new SessionModel
+            {
+                SessionId = Guid.NewGuid().ToString(),
+                UserId = userId,
+                Created = currentDateTime,
+                Expired = currentDateTime.AddMinutes(15)
+            };
+
+            db.Sessions.Add(session);
+            db.SaveChanges();
+
+            HttpContext.Response.Cookies.Append("SessionId", session.SessionId);
         }
     }
 }

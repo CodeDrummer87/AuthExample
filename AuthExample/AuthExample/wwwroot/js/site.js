@@ -48,11 +48,18 @@ function LoginUser(model) {
 		method: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(model),
-		success: function () {
-
+		success: function (address) {
+			if (address != null) {
+				ClearLoginForm();
+				window.location.href = address;
+			}
+			else
+				DisplayCurrentMessage("#loginCurrentMessage", `Почта ${model.email} не зарегистрирована в системе`, false);
+			ClearLoginForm();
 		},
 		error: function () {
-
+			DisplayCurrentMessage("#loginCurrentMessage", "Ошибка запроса входа в систему", false);
+			ClearLoginForm();
 		}
 	});
 }
@@ -62,14 +69,14 @@ function DisplayCurrentMessage(pid, message, success) {
 		$(pid).css('color', '#4cff00').text(message);
 	}
 	else {
-		$('#regCurrentMessage').css('color', 'red').text(message);
+		$(pid).css('color', 'red').text(message);
 	}
 
-	setTimeout(ClearCurrentMessage, 2500);
+	setTimeout(function () { ClearCurrentMessage(pid) }, 2500);
 }
 
-function ClearCurrentMessage() {
-	$('#regCurrentMessage').text(' ');
+function ClearCurrentMessage(pid) {
+	$(pid).text(' ');
 }
 
 function ClearPasswordFields() {
@@ -95,4 +102,9 @@ function ClearRegisterForm() {
 	$('#regUserEmail').val('');
 	$('#regUserPassword').val('');
 	$('#regUserConfirmPassword').val('');
+}
+
+function ClearLoginForm() {
+	$('#loginUserEmail').val('');
+	$('#loginUserPassword').val('');
 }

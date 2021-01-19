@@ -29,29 +29,32 @@ namespace AuthExample.Controllers
         [HttpPost]
         public async Task<string> RegisterUser([FromBody]RegisterModel model)
         {
-            if (model.Password == model.ConfirmPassword && model.Email != String.Empty)
+            if (CheckLoginNotExist(model.Email))
             {
-                var salt = GetSalt();
+                if (model.Password == model.ConfirmPassword)
+                {
+                    var salt = GetSalt();
 
-                await Authenticate(model.Email);
+                    await Authenticate(model.Email);
 
-                LoginModel loginModel = new LoginModel
-                { 
-                    Email = model.Email,
-                    Password = GetHashImage(model.Password, salt),
-                    Salt = salt     
-                };
+                    LoginModel loginModel = new LoginModel
+                    {
+                        Email = model.Email,
+                        Password = GetHashImage(model.Password, salt),
+                        Salt = salt
+                    };
 
-                db.AuthData.Add(loginModel);
-                db.SaveChanges();
+                    db.AuthData.Add(loginModel);
+                    db.SaveChanges();
 
-                int loginId = db.AuthData.FirstOrDefault(a => a.Email == model.Email).LoginId;
-                HttpContext.Response.Cookies.Append("LoginId", loginId.ToString());
+                    int loginId = db.AuthData.FirstOrDefault(a => a.Email == model.Email).LoginId;
+                    HttpContext.Response.Cookies.Append("LoginId", loginId.ToString());
 
-                return "/Content/StartPage";
+                    return "/Content/StartPage";
+                }
+                return "/Home/Index";
             }
-
-            return "/Home/Index";
+            else return String.Empty;
         }
 
         [HttpPost]
@@ -123,6 +126,11 @@ namespace AuthExample.Controllers
             db.SaveChanges();
 
             HttpContext.Response.Cookies.Append("SessionId", session.SessionId);
+        }
+
+        private bool CheckLoginNotExist(string login)
+        {
+            return db.AuthData.FirstOrDefault(e => e.Email == login) == null ? true : false;
         }
     }
 }

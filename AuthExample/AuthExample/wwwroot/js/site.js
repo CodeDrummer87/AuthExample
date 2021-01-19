@@ -1,27 +1,45 @@
 ﻿$(document).ready(function () {
 
 	$('#registerButton').click(function () {
-		let userLogin = {
-			email: $('#regUserEmail').val(),
-			password: $('#regUserPassword').val(),
-			confirmPassword: $('#regUserConfirmPassword').val()
-		};
+		if (CheckValidEmail($('#regUserEmail').val())) {
+			if (CheckPasswordSafety($('#regUserPassword').val())) {
+				let userLogin = {
+					email: $('#regUserEmail').val(),
+					password: $('#regUserPassword').val(),
+					confirmPassword: $('#regUserConfirmPassword').val()
+				};
 
-		if (CheckPasswordForConfirm(userLogin.password, userLogin.confirmPassword) && userLogin.email !== '') {
-			RegisterUser(userLogin);
+				if (CheckPasswordForConfirm(userLogin.password, userLogin.confirmPassword)) {
+					RegisterUser(userLogin);
+				}
+				else {
+					ClearPasswordFields();
+				}
+			}
+			else {
+				DisplayCurrentMessage('#regCurrentMessage',
+					'Пароль должен содержать не менее 6 символов из цифр и букв',
+					false);
+			}
 		}
 		else {
-			ClearPasswordFields();
-		}
+			DisplayCurrentMessage("#regCurrentMessage", "Некорректный формат почты", false);
+		}		
 	});
 
 	$('#loginButton').click(function () {
-		let loginModel = {
-			email: $('#loginUserEmail').val(),
-			password: $('#loginUserPassword').val()
-		};
 
-		LoginUser(loginModel);
+		if (CheckValidEmail($('#loginUserEmail').val())) {
+			let loginModel = {
+				email: $('#loginUserEmail').val(),
+				password: $('#loginUserPassword').val()
+			};
+
+			LoginUser(loginModel);
+		}
+		else {
+			DisplayCurrentMessage("#loginCurrentMessage", "Некорректный формат почты", false);
+		}
 	});
 
 });
@@ -33,8 +51,14 @@ function RegisterUser(model) {
 		contentType: 'application/json',
 		data: JSON.stringify(model),
 		success: function (address) {
-			ClearRegisterForm();
-			window.location.href = address;
+			if (address != '') {
+				ClearRegisterForm();
+				window.location.href = address;
+				DisplayCurrentMessage('#startPageCurrentMessage', 'Регистрация прошла успешно', true);
+			}
+			else {
+				DisplayCurrentMessage('#regCurrentMessage', "Данная почта уже зарегистрирована в системе", false);
+			}
 		},
 		error: function () {
 			DisplayCurrentMessage('#regCurrentMessage', "Упс! Что-то пошло не так...", false);
@@ -107,4 +131,16 @@ function ClearRegisterForm() {
 function ClearLoginForm() {
 	$('#loginUserEmail').val('');
 	$('#loginUserPassword').val('');
+}
+
+function CheckValidEmail(email) {
+	let template = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+	return template.test(email);
+}
+
+function CheckPasswordSafety(password) {
+	let template = /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
+
+	return template.test(password);
 }

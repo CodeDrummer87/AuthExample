@@ -8,7 +8,7 @@
 				confirmPassword: $('#regUserConfirmPassword').val()
 			};
 
-			if (CheckPasswordForConfirm(userLogin.password, userLogin.confirmPassword) && userLogin.email !== '') {
+			if (CheckPasswordForConfirm(userLogin.password, userLogin.confirmPassword)) {
 				RegisterUser(userLogin);
 			}
 			else {
@@ -44,8 +44,13 @@ function RegisterUser(model) {
 		contentType: 'application/json',
 		data: JSON.stringify(model),
 		success: function (address) {
-			ClearRegisterForm();
-			window.location.href = address;
+			if (address != '') {
+				ClearRegisterForm();
+				window.location.href = address;
+			}
+			else {
+				DisplayCurrentMessage('#regCurrentMessage', "Данная почта уже зарегистрирована в системе", false);
+			}
 		},
 		error: function () {
 			DisplayCurrentMessage('#regCurrentMessage', "Упс! Что-то пошло не так...", false);

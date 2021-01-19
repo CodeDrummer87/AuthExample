@@ -2,17 +2,24 @@
 
 	$('#registerButton').click(function () {
 		if (CheckValidEmail($('#regUserEmail').val())) {
-			let userLogin = {
-				email: $('#regUserEmail').val(),
-				password: $('#regUserPassword').val(),
-				confirmPassword: $('#regUserConfirmPassword').val()
-			};
+			if (CheckPasswordSafety($('#regUserPassword').val())) {
+				let userLogin = {
+					email: $('#regUserEmail').val(),
+					password: $('#regUserPassword').val(),
+					confirmPassword: $('#regUserConfirmPassword').val()
+				};
 
-			if (CheckPasswordForConfirm(userLogin.password, userLogin.confirmPassword)) {
-				RegisterUser(userLogin);
+				if (CheckPasswordForConfirm(userLogin.password, userLogin.confirmPassword)) {
+					RegisterUser(userLogin);
+				}
+				else {
+					ClearPasswordFields();
+				}
 			}
 			else {
-				ClearPasswordFields();
+				DisplayCurrentMessage('#regCurrentMessage',
+					'Пароль должен содержать не менее 6 символов из цифр и букв',
+					false);
 			}
 		}
 		else {
@@ -47,6 +54,7 @@ function RegisterUser(model) {
 			if (address != '') {
 				ClearRegisterForm();
 				window.location.href = address;
+				DisplayCurrentMessage('#startPageCurrentMessage', 'Регистрация прошла успешно', true);
 			}
 			else {
 				DisplayCurrentMessage('#regCurrentMessage', "Данная почта уже зарегистрирована в системе", false);
@@ -129,4 +137,10 @@ function CheckValidEmail(email) {
 	let template = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
 	return template.test(email);
+}
+
+function CheckPasswordSafety(password) {
+	let template = /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
+
+	return template.test(password);
 }

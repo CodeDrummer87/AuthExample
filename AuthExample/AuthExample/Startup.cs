@@ -1,16 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AuthExample.Models;
+using AuthExample.Modules.Implementation;
+using AuthExample.Modules.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace AuthExample
 {
@@ -28,6 +27,8 @@ namespace AuthExample
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AuthExampleContext>(options => options.UseSqlServer(connection));
 
+            services.AddScoped<IAccountDataTransfer, AccountDataTransfer>();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -35,6 +36,7 @@ namespace AuthExample
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
                 });
             services.AddControllersWithViews();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

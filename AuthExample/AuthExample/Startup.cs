@@ -28,6 +28,7 @@ namespace AuthExample
             services.AddDbContext<AuthExampleContext>(options => options.UseSqlServer(connection));
 
             services.AddScoped<IAccountDataTransfer, AccountDataTransfer>();
+            services.AddScoped<IContentDataTransfer, ContentDataTransfer>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

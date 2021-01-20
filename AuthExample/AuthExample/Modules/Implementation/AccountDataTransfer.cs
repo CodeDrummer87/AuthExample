@@ -17,7 +17,7 @@ namespace AuthExample.Modules.Implementation
     {
         private readonly AuthExampleContext db;
         private readonly IHttpContextAccessor contextAccessor;
-      
+
         public AccountDataTransfer(AuthExampleContext context, IHttpContextAccessor httpContext)
         {
             db = context;
@@ -53,6 +53,7 @@ namespace AuthExample.Modules.Implementation
             }
             else return String.Empty;
         }
+
         public async Task<string> LoginUserInApp(ModelForLogin model)
         {
             LoginModel modelDb = db.AuthData.FirstOrDefault(a => a.Email == model.Email);
